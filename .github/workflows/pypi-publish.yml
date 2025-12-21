@@ -1,8 +1,7 @@
 name: Publish Python 🐍 distribution 📦 to PyPI and TestPyPI
 
-on:
-  release:
-    types: [published]
+on: push
+  
 
 jobs:
   build:
@@ -40,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: https://pypi.org/p/stremio-py
+      url: https://pypi.org/p/Stremio-py
     permissions:
       id-token: write  # IMPORTANT: mandatory for trusted publishing
 
@@ -52,27 +51,3 @@ jobs:
         path: dist/
     - name: Publish distribution 📦 to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1
-
-  publish-to-testpypi:
-    name: Publish Python 🐍 distribution 📦 to TestPyPI
-    needs:
-    - build
-    runs-on: ubuntu-latest
-
-    environment:
-      name: testpypi
-      url: https://test.pypi.org/p/stremio-py
-
-    permissions:
-      id-token: write  # IMPORTANT: mandatory for trusted publishing
-
-    steps:
-    - name: Download all the dists
-      uses: actions/download-artifact@v6
-      with:
-        name: python-package-distributions
-        path: dist/
-    - name: Publish distribution 📦 to TestPyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        repository-url: https://test.pypi.org/legacy/
